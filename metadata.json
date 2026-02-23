@@ -1,0 +1,7 @@
+{
+  "name": "UnTether: Find the life beyond the lens",
+  "description": "A premium digital wellbeing dashboard to reclaim your focus, block distractions, and track your digital habits with AI-powered insights.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

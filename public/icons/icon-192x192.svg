@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#050505"/>
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d8b4fe"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+  </defs>
+  <!-- Broken chain - left link -->
+  <path d="M60 72 C60 56, 76 56, 76 72 L76 96 C76 112, 60 112, 60 96 Z" fill="none" stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+  <!-- Broken chain - right link -->
+  <path d="M116 80 C116 64, 132 64, 132 80 L132 104 C132 120, 116 120, 116 104 Z" fill="none" stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+  <!-- Break spark -->
+  <line x1="88" y1="84" x2="104" y2="76" stroke="#d8b4fe" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <line x1="86" y1="96" x2="106" y2="92" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <line x1="88" y1="108" x2="104" y2="104" stroke="#d8b4fe" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <!-- Glow circle -->
+  <circle cx="96" cy="96" r="60" fill="none" stroke="url(#g1)" stroke-width="1.5" opacity="0.15"/>
+  <!-- U letter subtle -->
+  <text x="96" y="148" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="22" fill="url(#g1)" opacity="0.6">U</text>
+</svg>

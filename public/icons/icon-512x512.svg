@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#050505"/>
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d8b4fe"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Broken chain - left link -->
+  <path d="M155 185 C155 145, 200 145, 200 185 L200 260 C200 300, 155 300, 155 260 Z" fill="none" stroke="url(#g1)" stroke-width="14" stroke-linecap="round" filter="url(#glow)"/>
+  <!-- Broken chain - right link -->
+  <path d="M312 210 C312 170, 357 170, 357 210 L357 285 C357 325, 312 325, 312 285 Z" fill="none" stroke="url(#g1)" stroke-width="14" stroke-linecap="round" filter="url(#glow)"/>
+  <!-- Break sparks -->
+  <line x1="225" y1="218" x2="287" y2="198" stroke="#d8b4fe" stroke-width="6" stroke-linecap="round" opacity="0.8" filter="url(#glow)"/>
+  <line x1="220" y1="250" x2="292" y2="238" stroke="#93c5fd" stroke-width="6" stroke-linecap="round" opacity="0.6" filter="url(#glow)"/>
+  <line x1="225" y1="282" x2="287" y2="272" stroke="#d8b4fe" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+  <!-- Outer glow ring -->
+  <circle cx="256" cy="256" r="165" fill="none" stroke="url(#g1)" stroke-width="3" opacity="0.12"/>
+  <circle cx="256" cy="256" r="185" fill="none" stroke="url(#g1)" stroke-width="1.5" opacity="0.06"/>
+  <!-- U branding -->
+  <text x="256" y="400" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="56" fill="url(#g1)" opacity="0.5">U</text>
+</svg>

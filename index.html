@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d8b4fe">
+    <meta name="description" content="A premium digital wellbeing dashboard to reclaim your focus, block distractions, and track your digital habits with AI-powered insights.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>UnTether | Reclaim Focus</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icons/icon-192x192.svg">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Very Mild Neon Palette */
+            --accent-purple: #d8b4fe; /* Very soft purple */
+            --accent-blue: #93c5fd;   /* Mild blue */
+            --accent-primary: var(--accent-purple);
+            --accent-glow: rgba(216, 180, 254, 0.4);
+            --accent-glow-strong: rgba(216, 180, 254, 0.8);
+            --accent-glow-blue: rgba(147, 197, 253, 0.3);
+            
+            --opal-black: #050505;
+            --opal-card: #0d0d0d;
+            --opal-border: #1e1e1e;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--opal-black);
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.8s ease;
+            overflow-x: hidden;
+        }
+
+        .opal-card {
+            background-color: var(--opal-card);
+            border: 1px solid var(--opal-border);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hover Bloom Effect */
+        .opal-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 25px var(--accent-glow), 
+                        inset 0 0 10px var(--accent-glow);
+            transform: translateY(-4px);
+            z-index: 10;
+        }
+
+        /* Specialized Continuity Hub Visibility */
+        .hub-glow-border {
+            border: 1px solid rgba(216, 180, 254, 0.3);
+            box-shadow: 0 0 60px rgba(216, 180, 254, 0.1), inset 0 0 30px rgba(216, 180, 254, 0.05);
+            background: linear-gradient(180deg, rgba(216, 180, 254, 0.03) 0%, transparent 100%), var(--opal-card);
+        }
+
+        /* Branding Glow & Gradients */
+        .opal-gradient-text {
+            background: linear-gradient(to bottom right, #fff, #eee, var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Focused Icon Glow */
+        .icon-radiant-glow {
+            box-shadow: 0 0 20px var(--accent-glow-strong), 0 0 40px var(--accent-glow);
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px var(--accent-glow-strong);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 45px var(--accent-glow-strong), 0 0 15px var(--accent-glow);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes energy-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-energy-flow {
+            background-size: 200% 200%;
+            animation: energy-flow 4s linear infinite;
+        }
+
+        .animate-neon-pulse {
+            animation: neon-pulse 3s ease-in-out infinite;
+        }
+
+        /* Mouse Spotlight Refinement */
+        .opal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                var(--accent-glow), 
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .opal-card:hover::before {
+            opacity: 0.12;
+        }
+
+        .glass-header {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--opal-border);
+        }
+
+        .bg-vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 20%, rgba(216, 180, 254, 0.05) 0%, transparent 65%);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.564.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.95.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="theme-purple">
+    <div class="bg-vignette"></div>
+    <div id="root"></div>
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const items = document.querySelectorAll('.opal-card, .neon-button, .badge-card');
+            items.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                item.style.setProperty('--mouse-x', `${x}px`);
+                item.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW registered:', reg.scope))
+                    .catch(err => console.warn('SW registration failed:', err));
+            });
+        }
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
