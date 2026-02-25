@@ -2,7 +2,7 @@
 export interface AppUsage {
   name: string;
   time: number; // in minutes
-  scrollCount?: number; 
+  scrollCount?: number;
   color: string;
 }
 
@@ -34,18 +34,34 @@ export interface StreakDay {
   timeSaved: number;
 }
 
+export interface DailyLog {
+  date: string;
+  screenTimeMinutes: number;
+  timeSavedMinutes: number;
+  idleTimeMinutes?: number;
+  benefits: string[];
+  focusSessions: number;
+}
+
 export interface UserStats {
   streak: number;
   totalTimeSaved: number; // Minutes not spent on phone
   screenTime: number; // Actual minutes spent on phone today
   dailyLimit: number; // Target limit (e.g. 120 mins)
   todayUsage: number;
+  todayFocusSessions: number;
+  idleTime?: number;
+  totalSessions?: number;
   lastFocusDate: string;
   lastSummaryDate?: string;
   streakHistory: StreakDay[];
+  dailyLogs: DailyLog[];
   journal?: ReflectionEntry[];
   warningConfig?: WarningConfig;
   assessment?: AssessmentData;
+  aiPersona?: string;
+  dailyInsights?: string[];
+  optimizers?: string[];
 }
 
 export interface Badge {

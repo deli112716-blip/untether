@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#d8b4fe">
-    <meta name="description" content="A premium digital wellbeing dashboard to reclaim your focus, block distractions, and track your digital habits with AI-powered insights.">
+    <meta name="description"
+        content="A premium digital wellbeing dashboard to reclaim your focus, block distractions, and track your digital habits with AI-powered insights.">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>UnTether | Reclaim Focus</title>
@@ -15,17 +16,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             /* Very Mild Neon Palette */
-            --accent-purple: #d8b4fe; /* Very soft purple */
-            --accent-blue: #93c5fd;   /* Mild blue */
+            --accent-purple: #d8b4fe;
+            /* Very soft purple */
+            --accent-blue: #93c5fd;
+            /* Mild blue */
             --accent-primary: var(--accent-purple);
             --accent-glow: rgba(216, 180, 254, 0.4);
             --accent-glow-strong: rgba(216, 180, 254, 0.8);
             --accent-glow-blue: rgba(147, 197, 253, 0.3);
-            
+
             --opal-black: #050505;
             --opal-card: #0d0d0d;
             --opal-border: #1e1e1e;
@@ -49,13 +53,22 @@
             z-index: 1;
         }
 
-        /* Hover Bloom Effect */
         .opal-card:hover {
             border-color: var(--accent-primary);
-            box-shadow: 0 0 25px var(--accent-glow), 
-                        inset 0 0 10px var(--accent-glow);
+            box-shadow: 0 0 25px var(--accent-glow),
+                inset 0 0 10px var(--accent-glow);
             transform: translateY(-4px);
             z-index: 10;
+        }
+
+        /* Hide Scrollbars Globally */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* Specialized Continuity Hub Visibility */
@@ -79,20 +92,31 @@
         }
 
         @keyframes neon-pulse {
-            0%, 100% { 
+
+            0%,
+            100% {
                 box-shadow: 0 0 20px var(--accent-glow-strong);
                 transform: scale(1);
             }
-            50% { 
+
+            50% {
                 box-shadow: 0 0 45px var(--accent-glow-strong), 0 0 15px var(--accent-glow);
                 transform: scale(1.05);
             }
         }
 
         @keyframes energy-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .animate-energy-flow {
@@ -109,11 +133,9 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(
-                450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                var(--accent-glow), 
-                transparent 70%
-            );
+            background: radial-gradient(450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    var(--accent-glow),
+                    transparent 70%);
             opacity: 0;
             transition: opacity 0.5s;
             z-index: -1;
@@ -139,7 +161,7 @@
             pointer-events: none;
         }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "recharts": "https://esm.sh/recharts@^3.7.0",
@@ -152,8 +174,9 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/index.css">
 </head>
+
 <body class="theme-purple">
     <div class="bg-vignette"></div>
     <div id="root"></div>
@@ -179,6 +202,7 @@
             });
         }
     </script>
-<script type="module" src="/index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

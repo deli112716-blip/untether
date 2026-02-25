@@ -67,7 +67,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setView, stats, blockedApp
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700 px-2 pb-10">
       {showManualSummary && <DailySummary stats={stats} onClose={() => setShowManualSummary(false)} />}
-      
+
       {/* Neural Link Status - Centered Top */}
       <div className="flex flex-col items-center gap-4 pt-4">
         <div className="flex items-center gap-6 px-6 py-2.5 bg-black/60 border border-white/5 rounded-full backdrop-blur-2xl shadow-2xl">
@@ -82,7 +82,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setView, stats, blockedApp
         </div>
 
         {activeZones.length > 0 && (
-          <button 
+          <button
             onClick={() => setView('geo')}
             className="w-full max-w-xs p-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl flex items-center justify-between group animate-in slide-in-from-top-4 duration-500"
           >
@@ -113,7 +113,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setView, stats, blockedApp
             UnTether
           </h1>
         </div>
-        
+
         <div className="flex items-center gap-2 px-5 py-2.5 bg-[#d8b4fe]/20 border border-[#d8b4fe]/30 rounded-full shadow-[0_0_20px_rgba(216,180,254,0.15)]">
           <Flame size={14} className="text-[#d8b4fe]" fill="currentColor" />
           <span className="text-[10px] font-black text-white uppercase tracking-widest">{stats.streak} DAY STREAK</span>
@@ -123,59 +123,71 @@ export const Dashboard: React.FC<DashboardProps> = ({ setView, stats, blockedApp
       {/* Hero Metric */}
       <section className="text-center relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#d8b4fe] opacity-[0.02] blur-[120px] rounded-full -z-10"></div>
-        
+
         <div className="space-y-4">
-           <h2 className="text-[110px] font-black text-white tracking-tighter tabular-nums leading-none drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-             {formatTime(stats.totalTimeSaved)}
-           </h2>
+          <div className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">Month's Screen Save</div>
+          <h2 className="text-[110px] font-black text-white tracking-tighter tabular-nums leading-none drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+            {formatTime(
+              (stats.dailyLogs || [])
+                .filter(log => log.date.startsWith(new Date().toISOString().substring(0, 7))) // matches YYYY-MM
+                .reduce((acc, log) => acc + log.timeSavedMinutes, 0) + timeSavedToday
+            )}
+          </h2>
         </div>
       </section>
 
       <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-         <div className="p-7 opal-card rounded-[44px] text-left space-y-2 relative overflow-hidden group">
-            <div className="flex items-center gap-3 text-zinc-500 group-hover:text-[#93c5fd] transition-colors">
-              <Smartphone size={18} />
-              <span className="text-[10px] font-black uppercase tracking-widest">Usage</span>
-            </div>
-            <div className="text-3xl font-black text-white tabular-nums">{formatTime(stats.screenTime || 0)}</div>
-         </div>
-         <div className="p-7 opal-card rounded-[44px] text-left space-y-2 group">
-            <div className="flex items-center gap-3 text-zinc-500 group-hover:text-emerald-400 transition-colors">
-              <Activity size={18} />
-              <span className="text-[10px] font-black uppercase tracking-widest">Saved Today</span>
-            </div>
-            <div className="text-3xl font-black text-white tabular-nums">{formatTime(timeSavedToday)}</div>
-         </div>
+        <div className="p-7 opal-card rounded-[44px] text-left space-y-2 relative overflow-hidden group">
+          <div className="flex items-center gap-3 text-zinc-500 group-hover:text-[#93c5fd] transition-colors">
+            <Smartphone size={18} />
+            <span className="text-[10px] font-black uppercase tracking-widest">Usage</span>
+          </div>
+          <div className="text-3xl font-black text-white tabular-nums">{formatTime(stats.screenTime || 0)}</div>
+        </div>
+        <div className="p-7 opal-card rounded-[44px] text-left space-y-2 group">
+          <div className="flex items-center gap-3 text-zinc-500 group-hover:text-emerald-400 transition-colors">
+            <Activity size={18} />
+            <span className="text-[10px] font-black uppercase tracking-widest">Active Today</span>
+          </div>
+          <div className="text-3xl font-black text-white tabular-nums">{formatTime(stats.todayUsage || 0)}</div>
+        </div>
       </div>
 
       {/* Fast Actions */}
-      <div className="flex gap-4">
-        <button 
+      <div className="grid grid-cols-3 gap-3">
+        <button
           onClick={() => setView('assessment')}
-          className="flex-1 opal-card p-6 rounded-[36px] border-white/5 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-between group transition-all"
+          className="opal-card p-5 rounded-[32px] border-white/5 bg-gradient-to-br from-white/5 to-transparent flex flex-col items-center justify-center gap-3 transition-all active:scale-95 group hover:border-[var(--accent-purple)]/30"
         >
-          <div className="flex items-center gap-4">
-             <div className="w-10 h-10 rounded-2xl bg-white/5 text-white flex items-center justify-center transition-all group-hover:bg-[var(--accent-purple)] group-hover:text-black">
-               <BrainCircuit size={20} />
-             </div>
-             <div className="text-left">
-                <p className="text-[8px] font-black uppercase text-[var(--accent-purple)] tracking-widest">Diagnostic</p>
-                <h4 className="text-white font-black italic text-xs">Profile</h4>
-             </div>
+          <div className="w-10 h-10 rounded-[18px] bg-white/5 text-white flex items-center justify-center transition-all group-hover:bg-[var(--accent-purple)] group-hover:text-black">
+            <BrainCircuit size={18} />
+          </div>
+          <div className="text-center">
+            <p className="text-[8px] font-black uppercase text-[var(--accent-purple)] tracking-widest leading-tight">Diagnostic</p>
           </div>
         </button>
-        <button 
-          onClick={() => setShowManualSummary(true)}
-          className="flex-1 opal-card p-6 rounded-[36px] border-white/5 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-between group transition-all"
+
+        <button
+          onClick={() => setView('journal')}
+          className="opal-card p-5 rounded-[32px] border-white/5 bg-gradient-to-br from-white/5 to-transparent flex flex-col items-center justify-center gap-3 transition-all active:scale-95 group hover:border-emerald-400/30"
         >
-          <div className="flex items-center gap-4">
-             <div className="w-10 h-10 rounded-2xl bg-white/5 text-white flex items-center justify-center transition-all group-hover:bg-[var(--accent-blue)] group-hover:text-black">
-               <LayoutDashboard size={20} />
-             </div>
-             <div className="text-left">
-                <p className="text-[8px] font-black uppercase text-[var(--accent-blue)] tracking-widest">Summary</p>
-                <h4 className="text-white font-black italic text-xs">Recap</h4>
-             </div>
+          <div className="w-10 h-10 rounded-[18px] bg-white/5 text-white flex items-center justify-center transition-all group-hover:bg-emerald-400 group-hover:text-black">
+            <PenTool size={18} />
+          </div>
+          <div className="text-center">
+            <p className="text-[8px] font-black uppercase text-emerald-400 tracking-widest leading-tight">Log Urge</p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setShowManualSummary(true)}
+          className="opal-card p-5 rounded-[32px] border-white/5 bg-gradient-to-br from-white/5 to-transparent flex flex-col items-center justify-center gap-3 transition-all active:scale-95 group hover:border-[var(--accent-blue)]/30"
+        >
+          <div className="w-10 h-10 rounded-[18px] bg-white/5 text-white flex items-center justify-center transition-all group-hover:bg-[var(--accent-blue)] group-hover:text-black">
+            <LayoutDashboard size={18} />
+          </div>
+          <div className="text-center">
+            <p className="text-[8px] font-black uppercase text-[var(--accent-blue)] tracking-widest leading-tight">Recap</p>
           </div>
         </button>
       </div>
@@ -187,19 +199,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ setView, stats, blockedApp
         </div>
         <div className="flex gap-4 overflow-x-auto pb-6 -mx-2 px-2 no-scrollbar">
           {blockedApps.map(app => (
-            <button 
-              key={app.id} 
+            <button
+              key={app.id}
               onClick={() => toggleApp(app.id)}
               className={`flex-shrink-0 w-36 p-7 opal-card rounded-[40px] border-white/5 flex flex-col items-center gap-5 transition-all active:scale-90 ${app.blocked ? 'bg-white/5 border-[var(--accent-blue)]/30 shadow-[0_0_20px_var(--accent-glow-blue)]' : ''}`}
             >
               <div className="w-12 h-12 rounded-[20px] bg-black border border-white/5 flex items-center justify-center">
-                 <div className={`w-3 h-3 rounded-full ${app.blocked ? 'animate-pulse' : ''}`} style={{ backgroundColor: app.iconColor, boxShadow: app.blocked ? `0 0 12px ${app.iconColor}` : 'none' }}></div>
+                <div className={`w-3 h-3 rounded-full ${app.blocked ? 'animate-pulse' : ''}`} style={{ backgroundColor: app.iconColor, boxShadow: app.blocked ? `0 0 12px ${app.iconColor}` : 'none' }}></div>
               </div>
               <div className="text-center">
-                 <div className={`text-[11px] font-black uppercase tracking-widest mb-1 ${app.blocked ? 'text-white' : 'text-zinc-600'}`}>{app.name}</div>
-                 <div className={`text-[8px] font-black uppercase tracking-tighter ${app.blocked ? 'text-[var(--accent-blue)]' : 'text-zinc-800'}`}>
-                   {app.blocked ? 'LOCKED' : 'BYPASS'}
-                 </div>
+                <div className={`text-[11px] font-black uppercase tracking-widest mb-1 ${app.blocked ? 'text-white' : 'text-zinc-600'}`}>{app.name}</div>
+                <div className={`text-[8px] font-black uppercase tracking-tighter ${app.blocked ? 'text-[var(--accent-blue)]' : 'text-zinc-800'}`}>
+                  {app.blocked ? 'LOCKED' : 'BYPASS'}
+                </div>
               </div>
               {app.blocked ? <ToggleRight className="text-[var(--accent-blue)]" size={22} /> : <ToggleLeft className="text-zinc-900" size={22} />}
             </button>
@@ -209,7 +221,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setView, stats, blockedApp
 
       {/* Core Protocol Entry */}
       <div className="grid grid-cols-1 gap-6">
-        <button 
+        <button
           onClick={() => setView('focus')}
           className="opal-card p-10 rounded-[56px] text-left active:scale-95 group transition-all flex items-center justify-between bg-gradient-to-r from-zinc-900/50 to-transparent"
         >

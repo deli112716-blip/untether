@@ -45,6 +45,22 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         }
 
         if (data.session) {
+          // Check if old user to skip onboarding
+          try {
+            const { data: profileData } = await supabase
+              .from('profiles')
+              .select('stats')
+              .eq('id', data.session.user.id)
+              .single();
+
+            if (profileData && profileData.stats) {
+              localStorage.setItem('untether_onboarding_complete', 'true');
+              localStorage.setItem('untether_consent', 'true');
+            }
+          } catch (profileErr) {
+            console.error("Could not fetch profile during login:", profileErr);
+          }
+
           onLogin();
         }
       } else {
@@ -68,15 +84,15 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         if (signUpData.user) {
           const { error: dbError } = await supabase
             .from('profiles')
-            .upsert({ 
+            .upsert({
               id: signUpData.user.id,
               full_name: formData.name,
               email: formData.email,
               password: formData.password
             });
-          
+
           if (dbError) {
-             console.error("Profile sync error:", dbError);
+            console.error("Profile sync error:", dbError);
           }
 
           if (signUpData.session) {
@@ -105,7 +121,7 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 animate-in fade-in duration-1000 relative overflow-y-auto">
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[var(--accent-glow)] blur-[150px] rounded-full opacity-20 animate-pulse pointer-events-none"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-500/10 blur-[150px] rounded-full opacity-20 pointer-events-none"></div>
-      
+
       <div className="w-full max-w-sm space-y-10 relative z-10 py-12">
         <div className="flex flex-col items-center gap-6">
           {/* Focused glow on icon box */}
@@ -123,26 +139,26 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             {!isLogin && (
               <div className="space-y-1">
                 <label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 ml-4">Full Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Enter your name" 
+                  placeholder="Enter your name"
                   required={!isLogin}
                   className="w-full bg-black/40 border border-white/5 rounded-[24px] px-6 py-4 text-white placeholder:text-zinc-800 focus:outline-none focus:border-[var(--accent-primary)] transition-all font-bold text-sm"
                 />
               </div>
             )}
-            
+
             <div className="space-y-1">
               <label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 ml-4">Email Address</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="email@example.com" 
+                placeholder="email@example.com"
                 required
                 className="w-full bg-black/40 border border-white/5 rounded-[24px] px-6 py-4 text-white placeholder:text-zinc-800 focus:outline-none focus:border-[var(--accent-primary)] transition-all font-bold text-sm"
               />
@@ -150,16 +166,16 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
             <div className="space-y-1 relative">
               <label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 ml-4">Password</label>
-              <input 
-                type={showPassword ? "text" : "password"} 
+              <input
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter password" 
+                placeholder="Enter password"
                 required
                 className="w-full bg-black/40 border border-white/5 rounded-[24px] px-6 py-4 text-white placeholder:text-zinc-800 focus:outline-none focus:border-[var(--accent-primary)] transition-all font-bold text-sm"
               />
-              <button 
+              <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 bottom-4 text-zinc-700 hover:text-zinc-400 p-2"
@@ -182,8 +198,8 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 {successMsg}
               </div>
             )}
-            
-            <button 
+
+            <button
               type="submit"
               disabled={loading}
               className="w-full mt-4 py-5 bg-white text-black rounded-[28px] font-black text-xs tracking-[0.2em] uppercase flex items-center justify-center gap-3 hover:bg-[var(--accent-primary)] hover:shadow-[0_0_25px_var(--accent-glow)] transition-all active:scale-95 disabled:opacity-50 group"
@@ -201,7 +217,7 @@ export const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         </div>
 
         <div className="text-center">
-          <button 
+          <button
             type="button"
             onClick={() => {
               setIsLogin(!isLogin);
